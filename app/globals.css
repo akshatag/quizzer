@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 245 100% 99%;
+  --foreground: 230 35% 15%;
+  --card: 0 0% 100%;
+  --card-foreground: 230 35% 15%;
+  --muted: 220 14% 96%;
+  --muted-foreground: 223 15% 55%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+}
+
+.dark {
+  --background: 230 30% 10%;
+  --foreground: 210 20% 98%;
+  --card: 230 30% 14%;
+  --card-foreground: 210 20% 98%;
+  --muted: 230 30% 16%;
+  --muted-foreground: 215 15% 70%;
+  --border: 230 28% 26%;
+  --input: 230 28% 26%;
+}
+
+body {
+  @apply bg-background text-foreground;
+}
+
+.bg-background {
+  background-color: hsl(var(--background));
+}
+
+.text-foreground {
+  color: hsl(var(--foreground));
+}
+
+.bg-card {
+  background-color: hsl(var(--card));
+}
+
+.text-card-foreground {
+  color: hsl(var(--card-foreground));
+}
+
+.border-border {
+  border-color: hsl(var(--border));
+}
+
+.bg-muted {
+  background-color: hsl(var(--muted));
+}
+
+.text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
