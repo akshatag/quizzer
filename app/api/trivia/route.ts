@@ -54,9 +54,9 @@ export async function POST(request: Request) {
   const prompt = `Create a fresh trivia question based on the user's chosen category. The next question must be slightly harder than previous ones and must not repeat earlier content. Respond strictly in JSON with the shape {"question": string, "choices": string[4], "answer": string, "difficulty"?: string, "explanation"?: string}. Ensure the correct answer is exactly one of the four choices.\n\nCategory: ${payload.category}\n\nPrevious questions (most recent last):\n${historySummary || "None yet"}`;
 
   try {
+    console.log("Before OpenAI API call");
     const completion = await openai.chat.completions.create({
-      model: "gpt-5",
-      temperature: 0.7,
+      model: "gpt-4.1",
       response_format: { type: "json_object" },
       messages: [
         {
@@ -67,18 +67,21 @@ export async function POST(request: Request) {
         { role: "user", content: prompt }
       ]
     });
+    console.log("After OpenAI API call");
 
     const raw = completion.choices[0]?.message?.content;
     if (!raw) {
       throw new Error("No response from language model");
     }
-
+    console.log("Before JSON.parse");
     const parsed = triviaSchema.parse(JSON.parse(raw));
+    console.log("After JSON.parse and schema parsing");
 
     if (!parsed.choices.includes(parsed.answer)) {
       throw new Error("Model response invalid: answer not among choices");
     }
 
+    console.log("Returning successful response");
     return NextResponse.json(parsed);
   } catch (error) {
     console.error("Trivia generation error", error);
